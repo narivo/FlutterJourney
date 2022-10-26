@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const ChallengeApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,73 +11,79 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.teal,
-        body: SafeArea(
-            child: Row(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-                height: 100.0, color: Colors.white, child: Text('Containee 1')),
-            SizedBox(
-              //height: 20.0
-              width: 20.0,
+        backgroundColor: Colors.teal[700],
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/aincrad.jpg'),
+              fit: BoxFit.cover,
             ),
-            Container(
-                height: 100.0, color: Colors.blue, child: Text('Container 2')),
-            Container(
-                height: 100.0, color: Colors.red, child: Text('Container 3')),
-            /*Container(
-              height: 100.0,
-              width: double.infinity,
-            ),*/
-          ],
-        )),
-      ),
-    );
-  }
-}
-
-class ChallengeApp extends StatelessWidget {
-  const ChallengeApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.teal,
-        body: SafeArea(
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          ),
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 100,
-                  color: Colors.red,
+                CircleAvatar(
+                  radius: 50.0,
+                  backgroundImage: AssetImage('images/kirito_blue.jpg'),
                 ),
-                Container(
-                  width: 100,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100.0,
-                        height: 100.0,
-                        color: Colors.yellow,
-                      ),
-                      Container(
-                        width: 100.0,
-                        height: 100.0,
-                        color: Colors.green,
-                      ),
-                    ],
+                Text(
+                  "Kirigawa Kazuto",
+                  style: TextStyle(
+                    fontFamily: 'Permanent Marker',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40.0,
+                    color: Colors.white,
                   ),
                 ),
-                Container(
-                  width: 100,
-                  color: Colors.blue,
+                Text(
+                  "GAME BETA TESTER",
+                  style: (TextStyle(
+                    fontFamily: 'Source Sans Pro',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    letterSpacing: 2.5,
+                    color: Colors.blue.shade100,
+                  )),
                 ),
-              ]),
+                SizedBox(
+                  height: 20.0,
+                  child: Divider(
+                    color: Colors.blue.shade100,
+                  ),
+                ),
+                Card(
+                  color: Colors.blue.shade50,
+                  margin:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                  child: ListTile(
+                    leading: Icon(Icons.phone, color: Colors.blue.shade900),
+                    title: Text(
+                      '+44 123 456 789',
+                      style: TextStyle(
+                          color: Colors.blue.shade900,
+                          fontFamily: 'Source Sans Pro',
+                          fontSize: 20.0),
+                    ),
+                  ),
+                ),
+                Card(
+                    color: Colors.blue.shade50,
+                    margin:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                    child: ListTile(
+                      leading: Icon(Icons.mail, color: Colors.blue.shade900),
+                      title: Text(
+                        'theseed@aincrad.com',
+                        style: TextStyle(
+                            color: Colors.blue.shade900,
+                            fontFamily: 'Source Sans Pro',
+                            fontSize: 20.0),
+                      ),
+                    )),
+              ],
+            ),
+          ),
         ),
       ),
     );
