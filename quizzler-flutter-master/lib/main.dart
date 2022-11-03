@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzler/question.dart';
+import 'package:quizzler/quizz_brain.dart';
 
 void main() => runApp(Quizzler());
 
@@ -26,13 +27,8 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  QuizBrain quizBrain = QuizBrain();
   List<Widget> scoreKeeper = [];
-  List<Question> questionBank = [
-    Question('You can lead a cow down stairs but not up stairs.', false),
-    Question('Approximately one quarter of human bones are in the feet.', true),
-    Question('A slug\'s blood is green.', true),
-  ];
-  int questionNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +42,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questionBank[questionNumber].questionText,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -101,7 +97,14 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void checkAnswerAndChangeQuestion(bool userAnswer) {
-    var correctAnswer = questionBank[questionNumber].questionAnswer;
+    setState(() {
+      checkAnswer(userAnswer);
+      quizBrain.nextQuestion();
+    });
+  }
+
+  void checkAnswer(bool userAnswer) {
+    var correctAnswer = quizBrain.getQuestionAnswer();
 
     if (userAnswer == correctAnswer) {
       scoreKeeper.add(Icon(
@@ -114,18 +117,6 @@ class _QuizPageState extends State<QuizPage> {
         color: Colors.red,
       ));
     }
-
-    changeQuestion();
-  }
-
-  void changeQuestion() {
-    setState(() {
-      if (questionNumber < 2) {
-        questionNumber += 1;
-      } else {
-        questionNumber = 0;
-      }
-    });
   }
 }
 
