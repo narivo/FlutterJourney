@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizzler/question.dart';
 import 'package:quizzler/quizz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(Quizzler());
 
@@ -29,6 +29,7 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   QuizBrain quizBrain = QuizBrain();
   List<Widget> scoreKeeper = [];
+  bool showAlert = false;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,7 @@ class _QuizPageState extends State<QuizPage> {
         ),
         Row(
           children: scoreKeeper,
-        )
+        ),
       ],
     );
   }
@@ -99,7 +100,44 @@ class _QuizPageState extends State<QuizPage> {
   void checkAnswerAndChangeQuestion(bool userAnswer) {
     setState(() {
       checkAnswer(userAnswer);
-      quizBrain.nextQuestion();
+
+      if (quizBrain.ending()) {
+        endQuiz();
+      } else {
+        quizBrain.nextQuestion();
+      }
+    });
+  }
+
+  void endQuiz() {
+    Alert(
+      context: context,
+      style: AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+      ),
+      title: "GAME OVER",
+      desc: "You have reached the end of the game.",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Retry",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () {
+            resetGame();
+            Navigator.pop(context);
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  void resetGame() {
+    setState(() {
+      quizBrain.reset();
+      scoreKeeper = [];
     });
   }
 
