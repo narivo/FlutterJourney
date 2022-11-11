@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/calculator_brain.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bmi_calculator/components/bottom_action_button.dart';
@@ -208,7 +209,8 @@ class _InputPageState extends State<InputPage> {
           ),
           BottomActionButton(
             onTap: () {
-              Navigator.pushNamed(context, '/results');
+              Navigator.pushNamed(context, '/results',
+                  arguments: CalculatorBrain(height: height, weight: weight));
             },
           )
         ],
