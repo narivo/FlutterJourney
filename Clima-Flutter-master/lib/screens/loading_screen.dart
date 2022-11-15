@@ -21,7 +21,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void getLocationData() async {
     EasyLoading.show(
       status: 'loading...',
-      maskType: EasyLoadingMaskType.black,
     );
 
     try {

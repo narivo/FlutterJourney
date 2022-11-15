@@ -12,6 +12,17 @@ class WeatherFetcher {
   double _longitude = 0.0;
   double _latitude = 0.0;
 
+  Future getCityWeather(String cityName) async {
+    var weatherUri = baseUri.replace(queryParameters: {
+      'q': '$cityName',
+      'appid': weatherApiKey,
+      'units': 'metric',
+    });
+
+    NetworkHelper networkHelper = NetworkHelper(weatherUri);
+    return await networkHelper.getData();
+  }
+
   Future getLocationWeather() async {
     await _getLocation();
     var weatherData = await _getWeather();

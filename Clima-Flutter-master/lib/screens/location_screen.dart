@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:clima/screens/city_screen.dart';
 import 'package:clima/services/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 
 import 'package:clima/services/weather_fetcher.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class LocationScreen extends StatefulWidget {
   LocationScreen({this.locationWeather});
@@ -53,7 +55,9 @@ class _LocationScreenState extends State<LocationScreen> {
             image: AssetImage('images/weathering_with_you.jpg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(0.8), BlendMode.dstATop),
+              Colors.white.withOpacity(0.8),
+              BlendMode.dstATop,
+            ),
           ),
         ),
         constraints: BoxConstraints.expand(),
@@ -70,11 +74,17 @@ class _LocationScreenState extends State<LocationScreen> {
                     children: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          var weatherData =
-                              await WeatherFetcher().getLocationWeather();
-                          setState(() {
-                            updateUI(weatherData);
-                          });
+                          try {
+                            var weatherData =
+                                await WeatherFetcher().getLocationWeather();
+                            setState(() {
+                              updateUI(weatherData);
+                            });
+                          } catch (e) {
+                            setState(() {
+                              updateUI(null);
+                            });
+                          }
                         },
                         child: Icon(
                           Icons.near_me,
@@ -83,7 +93,28 @@ class _LocationScreenState extends State<LocationScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          var typedName = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return CityScreen();
+                              },
+                            ),
+                          );
+                          if (typedName != null) {
+                            EasyLoading.show(
+                              status: 'searching...',
+                              maskType: EasyLoadingMaskType.black,
+                            );
+                            var weatherData = await WeatherFetcher()
+                                .getCityWeather(typedName);
+                            EasyLoading.dismiss();
+                            setState(() {
+                              updateUI(weatherData);
+                            });
+                          }
+                        },
                         child: Icon(
                           Icons.location_city,
                           size: 25.0,
